@@ -42,9 +42,6 @@ admin_route.get('/search-user', auth.isLogin, adminController.searchUser);
 admin_route.get('/add-admins',auth.isLogin,adminController.insertAdminLoad)
 admin_route.post('/add-admins',adminController.insertAdmin)
 
-admin_route.get('/access',auth.isLogout,adminController.accessAdminLoad)
-admin_route.post('/access',adminController.accessAdmin)
-
 admin_route.get('/back',adminController.back)
 
 admin_route.get('*',(req,res)=>{res.redirect('/admin')})

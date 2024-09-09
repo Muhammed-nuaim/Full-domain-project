@@ -233,32 +233,6 @@ const insertAdmin = async(req,res) => {
      }
 }
 
-const accessAdminLoad = async (req,res) =>{
-    try {
-        res.render('access')
-    } catch (error) {
-        console.log(error.message);
-    }
-}
-
-const accessAdmin = async(req,res) => {
-    try {
-        const key = '159'
-        const data = req.body
-
-        
-        if(data.key == key){
-            req.session.user_id = false
-            req.session.admin_id = true
-            res.redirect('admin/home')
-            
-        } else {
-            res.render('access',{message:"email or password in correct"})
-        }
-    } catch (error) {
-        console.log(error.message);
-    }
-}
 
 const back = async (req,res) =>{
     try {
@@ -286,7 +260,5 @@ module.exports = {
     searchUser,
     insertAdminLoad,
     insertAdmin,
-    accessAdminLoad,
-    accessAdmin,
     back
 }
