@@ -1,0 +1,38 @@
+/* Basic styles for the theme */
+body {
+    background-color: #f8f9fa;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container {
+    flex: 1;
+}
+
+h1, h2 {
+    color: #343a40;
+}
+
+footer {
+    background-color: #343a40;
+    color: white;
+    padding: 10px;
+    position: relative;
+    width: 100%;
+    bottom: 0;
+}
+
+/* Ensure consistent styling for forms */
+.form-control {
+    margin-bottom: 15px;
+}
+
+.btn {
+    margin-right: 10px;
+}
+
+/* Center text and form elements */
+.text-center {
+    text-align: center;
+}

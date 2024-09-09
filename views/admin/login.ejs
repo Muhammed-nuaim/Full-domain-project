@@ -1,0 +1,32 @@
+<%- include('../layouts/header.ejs') %>
+
+<h1 class="text-center">Admin Login</h1>
+
+<% if (typeof message !== 'undefined') { %>
+    <h3 class="text-danger text-center"><%= message %></h3>
+<% } %>
+
+<form action="/admin" method="post" class="mt-4">
+    <div class="mb-3">
+        <input type="email" name="email" placeholder="Enter Email" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <input type="password" name="password" placeholder="Enter password" class="form-control" required>
+    </div>
+    <div class="text-center">
+        <input type="submit" value="Login" class="btn btn-primary">
+    </div>
+</form>
+
+<div class="text-center mt-3">
+    <a href="/admin/access" class="btn btn-link">Admin access key</a>
+</div>
+
+<script>
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
+</script>
+
+<%- include('../layouts/footer.ejs') %>
+

@@ -1,0 +1,39 @@
+<%- include('../layouts/header.ejs') %>
+
+<div class="container mt-4">
+    <h1 class="text-center">Edit User</h1>
+
+    <form action="/admin/edit-user" method="post" class="mt-4">
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" id="name" name="name" class="form-control" placeholder="Enter Name" value="<%= user.name %>" required>
+        </div>
+
+        <div class="mb-3"></div>
+            <label for="mobileNumber" class="form-label">Mobile</label>
+            <input type="tel" id="mobile" name="mobile" pattern="[0-9]{4,}$" title="minimum contain 4 Numbers" class="form-control" placeholder="Enter Mobile Number" value="<%= user.mobile %>" required>
+        </div>
+
+        <fieldset class="mb-3">
+            <legend class="form-label">Verified Status</legend>
+            <div class="form-check">
+                <input type="radio" id="verified" name="verify" value="1" class="form-check-input" <% if(user.is_verified == 1) { %> checked <% } %> >
+                <label for="verified" class="form-check-label">Verified</label>
+            </div>
+            <div class="form-check">
+                <input type="radio" id="unverified" name="verify" value="0" class="form-check-input" <% if(user.is_verified == 0) { %> checked <% } %> >
+                <label for="unverified" class="form-check-label">Unverified</label>
+            </div>
+        </fieldset>
+
+        <input type="hidden" name="id" value="<%= user._id %>" >
+
+        <button type="submit" class="btn btn-primary">Update User</button>
+    </form>
+
+    <div class="mt-3 text-center">
+        <a href="/admin/back" class="btn btn-secondary">Back</a>
+    </div>
+</div>
+
+<%- include('../layouts/footer.ejs') %>

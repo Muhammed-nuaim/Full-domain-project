@@ -1,0 +1,12 @@
+<%- include('../layouts/header.ejs') %>
+
+<div class="container mt-4">
+    <h1 class="text-center">Welcome, <%= user.name %></h1>
+
+    <div class="text-center mt-4">
+        <a href="/edit?id=<%= user._id %>" class="btn btn-warning me-2">Edit Profile</a>
+        <a href="/logout" class="btn btn-danger">Logout</a>
+    </div>
+</div>
+
+<%- include('../layouts/footer.ejs') %>

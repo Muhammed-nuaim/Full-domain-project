@@ -1,0 +1,96 @@
+<%- include('../layouts/header.ejs') %>
+
+<div class="container mt-4">
+    <h2 class="text-center">Welcome to Dashboard, <%= admin.name %></h2>
+
+    <!-- Search form -->
+    <form action="/admin/search-user" method="GET" class="d-flex mt-4 mb-4">
+        <input type="text" name="query" class="form-control me-2" placeholder="Search by Name" required>
+        <input type="submit" class="btn btn-primary" value="Search">
+    </form>
+
+    <div class="mb-3">
+        <a href="/admin/new-user" class="btn btn-success me-2">Add New User</a>
+        <a href="/admin/add-admins" class="btn btn-secondary">Add Admins</a>
+    </div>
+
+    <!-- User table -->
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Mobile</th>
+                <th>Verified</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (users.length > 0) { %>
+                <% users.forEach(function(user) { %>
+                    <tr>
+                        <td><%= user.name %></td>
+                        <td><%= user.email %></td>
+                        <td><%= user.mobile %></td>
+                        <td>
+                            <% if (user.is_verified == 0) { %>
+                                <span class="badge bg-danger">Not Verified</span>
+                            <% } else { %>
+                                <span class="badge bg-success">Verified</span>
+                            <% } %>
+                        </td>
+                        <td>
+                            <a href="/admin/edit-user?id=<%= user._id %>" class="btn btn-warning btn-sm">Edit</a>
+                            <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete('<%= user._id %>')">Delete</button>
+                            <form id="deleteForm-<%= user._id %>" action="/admin/delete-user" method="POST" style="display: none;">
+                                <input type="hidden" name="id" value="<%= user._id %>">
+                            </form>
+                        </td>
+                    </tr>
+                <% }); %>
+            <% } else { %>
+                <tr>
+                    <td colspan="4" class="text-center">No users found</td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+
+    <a href="/admin/logout" class="btn btn-danger mt-3">Logout</a>
+</div>
+
+<!-- Modal HTML -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this user?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form id="deleteForm" action="/admin/delete-user" method="POST" style="display: inline;">
+                    <input type="hidden" name="id" id="deleteUserId">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../layouts/footer.ejs') %>
+
+<!-- JavaScript for modal handling -->
+<script>
+function confirmDelete(userId) {
+    // Set the ID of the user to be deleted in the hidden input field
+    document.getElementById('deleteUserId').value = userId;
+    // Show the modal
+    var myModal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
+    myModal.show();
+}
+</script>
+
