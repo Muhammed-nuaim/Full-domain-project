@@ -27,7 +27,6 @@ admin_route.get('/',auth.isLogout,adminController.loadLogin)
 admin_route.post('/',adminController.verifyLogin)
 admin_route.get('/home',auth.isLogin,adminController.loadDashboard)
 admin_route.get('/logout',auth.isLogin,adminController.logOut)
-// admin_route.get('/invalidAdmin',auth.isInvalid)
 
 admin_route.get('/new-user',auth.isLogin,adminController.newUserLoad)
 admin_route.post('/new-user',adminController.addUser)
@@ -41,8 +40,6 @@ admin_route.get('/search-user', auth.isLogin, adminController.searchUser);
 
 admin_route.get('/add-admins',auth.isLogin,adminController.insertAdminLoad)
 admin_route.post('/add-admins',adminController.insertAdmin)
-
-admin_route.get('/back',adminController.back)
 
 admin_route.get('*',(req,res)=>{res.redirect('/admin')})
 

@@ -13,17 +13,7 @@ const securePassword = async(password)=>{
 
 const loadLogin = async(req,res)=>{
     try {
-        //
-        if(req.session.newuser || req.session.newAdmin || req.session.updateUser){
-            if(req.session.newuser){
-                res.render('new-user')
-            }else if(req.session.newAdmin){
-                res.render('add-admins')
-            }else if(req.session.updateUser){
-                res.render('edit-user',{ user:req.session.updateUser })
-            }
-        }else{
-        res.render('login')}
+        res.render('login')
     } catch (error) {
         console.log(error.message);
     }
@@ -39,7 +29,7 @@ const verifyLogin = async(req,res)=>{
         if(adminData){
             const passwordMatch = await bcrypt.compare(password,adminData.password)
                 if(passwordMatch){
-                    req.session.user_id = false
+                    // req.session.user_id = false
                     req.session.admin_id = adminData._id
                     res.redirect('admin/home')
                 } else {
@@ -77,10 +67,7 @@ const logOut = async(req,res)=>{
 
 const newUserLoad = async(req,res)=>{
     try {
-        req.session.newuser = true
-        if(req.session.newuser){
             res.render('new-user')
-        }
     } catch (error) {
         console.log(error.message);
     }
@@ -103,10 +90,7 @@ const addUser = async(req,res)=>{
         const userData = await user.save()
 
         if(userData){
-            req.session.newuser = await false
-            if(!req.session.newuser){
                 res.redirect('/admin/home')
-            }
         } else {
             res.render('new-user',{message:"Something wrong"})
         }
@@ -126,10 +110,7 @@ const editUserLoad = async(req,res)=>{
         const id = req.query.id
         const userData = await User.findById({_id:id})
         if(userData){
-            req.session.updateUser = userData
-            if(req.session.updateUser){
                 res.render('edit-user',{ user: userData })
-            }
         } else {
             res.redirect('/admin/home')
         }
@@ -141,12 +122,7 @@ const editUserLoad = async(req,res)=>{
 const updateUsers = async(req,res)=>{
     try {
         const userData = await User.findByIdAndUpdate({_id:req.body.id},{$set:{name:req.body.name,mobile:req.body.mobile,is_verified:req.body.verify}})
-        req.session.updateUser = await false
-        if(!req.session.updateUser){
             res.redirect('/admin/home')
-        }else{
-            res.render('edit-user',{ user:req.session.updateUser })
-        }
     } catch (error) {
         if(error.code === 11000){
             return res.render('edit-user',{message:"Email Already Exist ! Please Enter Different Email"})
@@ -185,10 +161,7 @@ const searchUser = async (req, res) => {
 
 const insertAdminLoad = async (req,res) => {
     try {
-        req.session.newAdmin = await true
-        if(req.session.newAdmin){
             res.render('add-admins')
-        }
     } catch (error) {
         console.log(error.message);
     }
@@ -217,10 +190,7 @@ const insertAdmin = async(req,res) => {
         const userData = await user.save()
 
         if(adminData && userData) {
-            req.session.newAdmin = await false
-            if(!req.session.newAdmin){
                 res.redirect('/admin/home')
-            }
         }else{
             res.render('add-admins',{message:"Admin Insertion Failed"})
         }
@@ -233,19 +203,6 @@ const insertAdmin = async(req,res) => {
      }
 }
 
-
-const back = async (req,res) =>{
-    try {
-        req.session.newuser = await false
-        req.session.newAdmin = await false
-        req.session.updateUser = await false
-        if(!req.session.newuser && !req.session.newAdmin && !req.session.updateUser){
-            res.redirect('/admin/home')
-        }
-    } catch (error) {
-        console.log(error.message);
-    }
-}
 
 module.exports = {
     loadLogin,
@@ -260,5 +217,4 @@ module.exports = {
     searchUser,
     insertAdminLoad,
     insertAdmin,
-    back
 }
